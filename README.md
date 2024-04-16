@@ -1,6 +1,6 @@
 # Meu front
 
-Esta aplicacao tem o objetivo de manter um cadastro(CRUD) simples de despesas de qualquer natureza.
+Esta aplicacao tem o objetivo de manter um cadastro de despesas.
 
 ---
 ## Como executar

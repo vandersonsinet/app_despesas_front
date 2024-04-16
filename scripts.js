@@ -6,7 +6,7 @@ const listarDespesas = async () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      data.despesas.forEach(item => insertList(item.descricao, item.quantidade, item.valor, item.id))
+      data.despesas.forEach(item => insertList(item.tipo_despesa.descricao, item.descricao, item.quantidade, item.valor, item.id_despesa, item.tipo_despesa.id))
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -15,11 +15,12 @@ const listarDespesas = async () => {
 
 listarDespesas()
 
-function novaDespesa (descricao, quantidade, valor){
+function novaDespesa (descricao, quantidade, valor, idTipoDespesa){
   const formData = new FormData();
   formData.append('descricao', descricao);
   formData.append('quantidade', quantidade);
   formData.append('valor', valor);
+  formData.append('tipo_despesa_id', idTipoDespesa);
 
   let url = 'http://127.0.0.1:5001/adicionaDespesa';
   fetch(url, {
@@ -43,36 +44,39 @@ const criaBotaoExcluir = (parent, id) => {
   parent.appendChild(icone);
 }
 
-const criaBotaoEditar = (parent, id) => {
+const criaBotaoEditar = (parent, id, tipo_despesa_id) => {
   let icone = document.createElement("img");
   icone.setAttribute("width", "30px;");
   icone.setAttribute("height", "35px;");
-  icone.setAttribute("onclick","editarDespesa("+id+");");
+  icone.setAttribute("onclick","editarDespesa("+id+","+tipo_despesa_id+");");
   icone.setAttribute("id","idEdicao"+id+"");
   icone.src = "img/editar.png";
   parent.appendChild(icone);
 }
 
-function editarDespesa(id){
-  btEditar = document.getElementById("idEdicao"+id+"");
+function editarDespesa(id, tipo_despesa_id){
+  btEditar = document.querySelector("#idEdicao"+id+"");
   linha = btEditar.parentElement;
   cols = linha.parentElement.getElementsByTagName("td");
 
-  document.getElementById("descricao").value = cols[0].innerHTML;
-  document.getElementById("quantidade").value =cols[1].innerHTML;
-  document.getElementById("valor").value = cols[2].innerHTML;
+  let options = document.querySelector("#tipoDespesa");
+  options[tipo_despesa_id].selected = "selected;"
+  document.querySelector("#descricao").value = cols[1].innerHTML;
+  document.querySelector("#quantidade").value =cols[2].innerHTML;
+  document.querySelector("#valor").value = cols[3].innerHTML;
 
   abreModal();
 
-  document.getElementById("botaoSalvar").setAttribute( "onClick", "salvarEditarDespesa("+id+");" );
+  document.querySelector("#botaoSalvar").setAttribute( "onClick", "salvarEditarDespesa("+id+");" );
 
 }
 
-function salvarEditarDespesa(id){
+function salvarEditarDespesa(id, tipo_despesa_id){
 
-  let descricao = document.getElementById("descricao").value;
-  let quantidade = document.getElementById("quantidade").value;
-  let valor = document.getElementById("valor").value;
+  let descricao = document.querySelector("#descricao").value;
+  let quantidade = document.querySelector("#quantidade").value;
+  let valor = document.querySelector("#valor").value;
+  let tipoDespesa = document.querySelector('#tipoDespesa option:checked').value
 
   if (descricao === '') {
     alert("Descrição da despesa obrigatória!");
@@ -84,6 +88,7 @@ function salvarEditarDespesa(id){
       formData.append('descricao', descricao);
       formData.append('quantidade', quantidade);
       formData.append('valor', valor);
+      formData.append('tipo_despesa_id', tipoDespesa);
 
       let url = 'http://127.0.0.1:5001/editarDespesa';
       fetch(url, {
@@ -96,42 +101,43 @@ function salvarEditarDespesa(id){
         });
       alert("Despesa alterada com sucesso!")
     }
-    document.getElementById("descricao").value = "";
-    document.getElementById("quantidade").value = "";
-    document.getElementById("valor").value = "";
-    document.getElementById("botaoSalvar").setAttribute( "onClick", "adicionarDespesa();" );
+    document.querySelector("#descricao").value = "";
+    document.querySelector("#quantidade").value = "";
+    document.querySelector("#valor").value = "";
+    document.querySelector("#botaoSalvar").setAttribute( "onClick", "adicionarDespesa();" );
     reloadTable();
 }
 
 const adicionarDespesa = () => {
-  let descricao = document.getElementById("descricao").value;
-  let quantidade = document.getElementById("quantidade").value;
-  let valor = document.getElementById("valor").value;
+  let descricao = document.querySelector("#descricao").value;
+  let quantidade = document.querySelector("#quantidade").value;
+  let valor = document.querySelector("#valor").value;
+  let tipoDespesa = document.querySelector('#tipoDespesa option:checked').value
 
   if (descricao === '') {
     alert("Descrição da despesa obrigatória!");
   } else if (isNaN(quantidade) || isNaN(valor)) {
     alert("Quantidade e valor precisam ser números!");
   } else {
-    novaDespesa(descricao, quantidade, valor)
+    novaDespesa(descricao, quantidade, valor, tipoDespesa)
     reloadTable();
   }
 }
 
-const insertList = (nameProduct, quantity, price, id) => {
-  var item = [nameProduct, quantity, price, id]
-  var table = document.getElementById('myTable');
+const insertList = (tipo_despesa, descricao_despesa, quantidade, valor, id, tipo_despesa_id) => {
+  var item = [tipo_despesa, descricao_despesa, quantidade, valor, id]
+  var table = document.querySelector('#myTable');
   var row = table.insertRow();
 
   for (var i = 0; i < item.length-1; i++) {
     var cel = row.insertCell(i);
     cel.textContent = item[i];
   }
-  criaBotaoEditar(row.insertCell(-1), id)
+  criaBotaoEditar(row.insertCell(-1), id, tipo_despesa_id)
   criaBotaoExcluir(row.insertCell(-1), id)  
-  document.getElementById("descricao").value = "";
-  document.getElementById("quantidade").value = "";
-  document.getElementById("valor").value = "";
+  document.querySelector("#descricao").value = "";
+  document.querySelector("#quantidade").value = "";
+  document.querySelector("#valor").value = "";
 }
 
 function deletarDespesa(id){
@@ -158,17 +164,40 @@ function abreModal() {
 }
 
 function fechaModal() {
-  document.getElementById("descricao").value = "";
-  document.getElementById("quantidade").value = "";
-  document.getElementById("valor").value = "";
-  document.getElementById("botaoSalvar").setAttribute( "onClick", "adicionarDespesa();" );
+  document.querySelector("#descricao").value = "";
+  document.querySelector("#quantidade").value = "";
+  document.querySelector("#valor").value = "";
+  document.querySelector("#botaoSalvar").setAttribute( "onClick", "adicionarDespesa();" );
   modal.close();
 }
 
 function reloadTable(){
-  var table = document.getElementById('myTable');
+  var table = document.querySelector('#myTable');
     table.innerHTML = "";
-    var cabecalho = '<tr><th>Descrição</th><th>Quantidade</th><th>Valor</th><th></th><th></th></tr>'
+    var cabecalho = '<tr><th>Tipo de Despesa</th><th>Descrição</th><th>Quantidade</th><th>Valor</th><th colspan="2" style="text-align: center;">Ações</th></tr>'
     table.innerHTML += cabecalho;
     listarDespesas();
+}
+
+function listarTiposDespesas(){
+  let url = 'http://127.0.0.1:5001/listarTipoDespesas';
+  fetch(url, {
+    method: 'get',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      data.tipoDespesas.forEach(item => carregaListaTipoDespesa(item.id, item.descricao))
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
+function carregaListaTipoDespesa(id, descricao){
+  select = document.querySelector("#tipoDespesa")
+  
+  const option = document.createElement("option");
+  option.value = id;
+  option.text = descricao;
+  select.add(option, null);
 }
