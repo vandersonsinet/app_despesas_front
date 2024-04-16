@@ -10,10 +10,10 @@
     <title>Cadastro de Despesas</title>
 </head>
 
-<body onload="listarTiposDespesas();">
+<body onload="listarTiposDespesas();" style="height: 100%;">
     <header>
         <div class="title">
-            <h2>App para cadastro de despesas</h2>
+            <h2>Controle de despesas</h2>
         </div>
     </header>
     <section class="items">
@@ -32,23 +32,33 @@
             <button class="addBtn" id="abreModal" onclick="abreModal()">Adicionar Despesa</button>
         </menu>
     </div>
-    <dialog id="modal" style="text-align: center; border-radius: 5px;">
-        <form method="dialog">
-            <select id="tipoDespesa" name="tipoDespesa">
-                <option value="">Tipo de despesa:</option>
-            </select>
-            <input type="text" id="descricao" placeholder="Descrição:" value="">
-            <input type="text" id="quantidade" placeholder="Quantidade:" value="">
-            <input type="text" id="valor" placeholder="Valor:" value="">
-            <menu style="text-align: center;">
-                <button id="cancelar" class="btnCancelar" onclick="fechaModal();">Cancelar</button>
-                <button id="botaoSalvar" class="btnSalvar" onclick="adicionarDespesa();">Salvar</button>
-            </menu>
-        </form>
-  </dialog>
+    <dialog id="modal" style="text-align: center;">
+        <div class="modalTitle" style="text-align: center; padding-top: 10px;">Informações da nova despesa</div>
+        <div>
+            <form method="dialog">
+                <p class="alerta">*Todos os campos são de preenchimento obrigatório</p>
+                <br/>
+                <select id="tipoDespesa" name="tipoDespesa">
+                    <option value="">Tipo de despesa:</option>
+                </select>
+                <input type="text" id="descricao" placeholder="Descrição:" value="">
+                <input type="text" id="quantidade" placeholder="Quantidade:" value="">
+                <input type="text" id="valor" placeholder="Valor:" value="">
+                <br/>
+                <br/>
+                <menu style="text-align: center;">
+                    <button id="cancelar" class="btnCancelar" onclick="fechaModal();">Cancelar</button>
+                    <button id="botaoSalvar" class="btnSalvar" onclick="adicionarDespesa();">Salvar</button>
+                </menu>
+            </form>
+         </div>
+    </dialog>
     <script src="scripts.js"></script>
 </body>
-
+<footer>
+    <div class="rodape">
+    </div>
+</footer>
 </html>
 
 

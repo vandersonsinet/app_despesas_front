@@ -1,7 +1,7 @@
 body,
 ul,
 li {
-    font-family: tahoma;
+    font-family: sans-serif;
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -9,25 +9,66 @@ li {
 }
 
 header {
-    background-color: rgb(225, 222, 199);
+    background-color: rgb(0, 0, 0);
     text-align: center;
-    position: relative;
+    position: fixed; 
     width: 100%;
+    margin-bottom: 50px;
+}
+
+.rodape {
+    background: rgb(71, 71, 71);
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 0px;
 }
 
 .title {
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     width: 100%;
-    background-color: rgb(255, 255, 255);
+    background: rgb(71, 71, 71);
     display: inline-block;
     padding: 2px 0px;
     position: sticky;
     top: 0px;
+    margin-top: 5px;
+}
+
+.alerta {
+    padding-left: 30px;
+    font-size: 12px;
+    text-align: left;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #ff0000;
+}
+
+.modalTitle {
+    width: 100%;
+    color: rgb(255, 255, 255);
+    background-color: rgb(77, 77, 77);
+    display: inline-block;
+    padding: 0px;
+    position: static;
+    top: 0px;
+    height: 30px;
+    font-family: sans-serif;
+    font-size: 18px;
+}
+
+#modal {
+    width: 70%;
+    height: 30%;
+    position: relative;
+    margin-bottom: 25%;
+    padding: 0%;
+    border: #eee;
 }
 
 .newItem {
     background-color: rgb(225, 222, 199);
-    padding: 30px 40px;
     color: white;
     display: flex;
     justify-content: center;
@@ -41,8 +82,8 @@ header {
 
 #descricao {
     margin: 0;
-    border: 1px solid rgb(35, 32, 24);
-    width: 25%;
+    border: 1px solid rgb(137, 137, 137);
+    width: 30%;
     padding: 10px;
     font-size: 16px;
 }
@@ -50,7 +91,7 @@ header {
 #tipoDespesa {
     margin: 0;
     border: 1px solid rgb(35, 32, 24);
-    width: 25%;
+    width: 20%;
     padding: 10px;
     font-size: 16px;
 }
@@ -73,7 +114,7 @@ header {
 
 .btnCancelar {
     padding: 9px 10px;
-    background-color: rgb(35, 32, 24);
+    background-color: rgb(71, 71, 71);
     color: white;
     text-align: center;
     font-size: 16px;
@@ -84,7 +125,7 @@ header {
 
 .btnSalvar {
     padding: 9px 10px;
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(71, 71, 71);
     color: white;
     text-align: center;
     font-size: 16px;
@@ -95,7 +136,7 @@ header {
 
 .addBtn {
     padding: 9px 10px;
-    background-color: rgb(35, 32, 24);
+    background-color: rgb(71, 71, 71);
     color: white;
     text-align: center;
     font-size: 16px;
@@ -121,7 +162,7 @@ header {
 
 .items {
     margin: 0;
-    padding: 0;
+    padding-top: 100px;
     display: flex;
     justify-content: center;
 }
@@ -138,14 +179,14 @@ td {
     border-collapse: collapse;
     cursor: pointer;
     position: relative;
-    padding: 12px 8px 12px 10px;
+    padding: 8px 6px 8px 6px;
     font-size: 18px;
     transition: 0.2s;
     text-align: start;
 }
 
 table{
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.895);
     width: 50%;
 }
 
@@ -158,6 +199,6 @@ th:nth-child(1){
 }
 
 tr:hover {
-    background: rgb(200, 199, 199);
+    background: rgba(253, 253, 253, 0.86);
 }
 

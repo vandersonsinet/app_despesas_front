@@ -118,6 +118,8 @@ const adicionarDespesa = () => {
     alert("Descrição da despesa obrigatória!");
   } else if (isNaN(quantidade) || isNaN(valor)) {
     alert("Quantidade e valor precisam ser números!");
+  } else if (tipoDespesa ==='') {
+    alert("O tipo de despesa deve ser informado!");
   } else {
     novaDespesa(descricao, quantidade, valor, tipoDespesa)
     reloadTable();
